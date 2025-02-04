@@ -5,3 +5,13 @@ document.addEventListener("DOMContentLoaded", () => {
     el.style.setProperty("--animation-delay", "0s"); // Optional: Set delay
   });
 });
+
+function showSideBar(){
+  const sidebar = document.querySelector('.phone-nav');
+
+  if(sidebar.style.display === 'none'){
+    sidebar.style.display = 'flex'
+  } else {
+    sidebar.style.display = 'none'
+  }
+}

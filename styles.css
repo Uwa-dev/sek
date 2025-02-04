@@ -115,6 +115,27 @@ nav{
   width: 2rem;
   display: block;
   border-radius: 3px;
+  position: relative;
+}
+.toggle-button .phone-nav{
+  position: absolute;
+  width: 15rem;
+  height: 85vh;
+  background-color: var(--hover-color);
+  color: var(--hero-color);
+  right: 0;
+  top: 3.5rem;
+  text-align: center;
+  display: none;
+  flex-direction: column;
+  gap: 2rem;
+  border-radius: 5px;
+  padding-top: 2rem;
+  
+}
+.toggle-button .phone-nav a{
+  color: var(--hero-color);
+  font-size: 1.15rem;
 }
 #hero{
   height: 80vh;
@@ -495,5 +516,11 @@ nav{
   .product-container{
     width: 10rem !important;
     height: 17rem;
+  }
+  .about-hero-content{
+    margin-top: 2rem;
+  }
+  .contact-hero-text{
+    margin: 0 1.5rem;
   }
 }
