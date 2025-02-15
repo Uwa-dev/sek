@@ -29,6 +29,13 @@
   --small-font-size: .875rem;
   --smaller-font-size: .813rem;
 }
+@media (max-width: 800px) {
+  :root{
+    --normal-font: 'poppins', san-serif;
+    --h1-font: 'lobster', cursive;
+    --agu-font: "Agu Display", serif;
+  }
+}
 
 *{
   margin: 0;
@@ -37,7 +44,6 @@
 }
 
 body{
-  /* font-family: var(--h1-font); */
   font-family: var(--normal-font);
 }
 img{
@@ -226,7 +232,7 @@ nav{
   padding: 25px 15px;
   box-shadow: 20px 20px 34px rgba(0,0,0, 0.3);
   border: 1px solid #cce7d0;
-  border-radius: 4px;
+  border-radius: 0.5rem;
   margin: 15px 0;
   background-color: #fff;
 }
@@ -332,7 +338,7 @@ nav{
   /* background: rgba(255, 255, 255, 0.1); */
   background-color: var(--hover-color);
   padding: 1.5rem;
-  border-radius: 1rem;
+  border-radius: 0.5rem;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
   color: var(--background-color);
 }
@@ -341,6 +347,7 @@ nav{
   font-style: italic;
   margin-bottom: 1rem;
   font-size: var(--h3-font-size);
+  font-family: var(--h1-font);
 }
 
 .testimonial h4 {
@@ -357,6 +364,7 @@ nav{
 .faq-heading{
   text-align: center;
   font-size: var(--h2-font-size);
+  font-family: var(--h1-font);
   color: var(--background-color);
   margin: 2rem 0;
 }
@@ -382,6 +390,7 @@ nav{
   background-color: #fff;
   padding: 0.5rem;
   border-radius: 0.5rem;
+  font-family: var(--h1-font);
 }
 
 /* Footer */
@@ -675,7 +684,7 @@ footer p {
   }
   .product-container{
     width: 10rem !important;
-    height: 15.5rem;
+    height: 16rem;
   } 
   .product-btn{
     padding:0.4rem 1rem ;
