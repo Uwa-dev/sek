@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="./adminStyles.css">
+  <title>Add Product</title>
+</head>
+<body>
+  <nav data-animation="fade-in">
+    <img src="../assets/logo-removebg-preview.png" alt="" class="logo">
+    <ul class="navigation">
+      <li><a href="./index.html">Home</a></li>
+      <li><a href="">Products</a></li>
+      <li><a href="">View Orders</a></li>
+      <li><a href="#">Add</a></li>
+    </ul>
+    <div class="search-container">
+      <i class='bx bx-search-alt'></i>
+      <input type="text" class="search" placeholder="Search">
+    </div>
+    <ul class="icons">
+      <i class='bx bx-search-alt'></i>
+      <a href="./login.html">Login</a>
+    </ul>
+    <div class="toggle-button" onclick="showSideBar()">
+      <span></span>
+      <span></span>
+      <span></span>
+
+      <ul class="phone-nav">
+        <li><a href="./index.html">Home</a></li>
+        <li><a href="">Products</a></li>
+        <li><a href="">View Orders</a></li>
+        <li><a href="#">Add</a></li>
+        <li><a href="../login.html">Login</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section id="admin-hero" data-animation="fade-in">
+    <div class="admin-hero-content">
+      <h1>Welcome back!</h1>
+      <p>Add new products, let's earn some money ✌</p>
+      <a href="" class="hero-btn">View all Products</a>
+    </div>
+  </section>
+
+  <section id="add-product-container">
+    <div class="add-product-container">
+      <h1>Add Product</h1>
+      <form id="product-form" enctype="multipart/form-data">
+        <!-- Image Input -->
+        <div class="form-group">
+          <label for="productImage">Product Image</label>
+          <input type="file" id="productImage" name="productImage" accept="image/*" required>
+        </div>
+  
+        <!-- Product Name Input -->
+        <div class="form-group">
+          <label for="productName">Name</label>
+          <input type="text" id="productName" name="productName" placeholder="Enter product name" required>
+        </div>
+  
+        <!-- Price Input -->
+        <div class="form-group">
+          <label for="productPrice">Price</label>
+          <input type="number" id="productPrice" name="productPrice" placeholder="Enter price" min="0" step="0.01" required>
+        </div>
+        
+        <!-- Category Input  -->
+        <div class="form-group">
+          <label for="categoryName">Category Name</label>
+          <select name="categoryName" id="categoryName">
+            <option value="Bag">Bag</option>
+            <option value="Necklace">Necklace</option>
+            <option value="Earring">Earring</option>
+            <option value="Chains">Chains</option>
+            <option value="Bracelet">Bracelet</option>
+            <option value="Full Jewelry set">Full Jewelry set</option>
+          </select>
+        </div>
+
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn-submit">Add Product</button>
+
+        <div id="add-message" style="margin-bottom: 1rem; margin-top: 1rem; text-align: center;"></div>
+      </form>
+    </div>
+  </section>
+  <script src="../js/script.js"></script>
+  <script src="../js/addProduct.js"></script>
+</body>
+</html>

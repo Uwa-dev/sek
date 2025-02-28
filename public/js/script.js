@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", () => {
   const elements = document.querySelectorAll('[data-animation="fade-in"]');
 
@@ -15,3 +16,11 @@ function showSideBar(){
     sidebar.style.display = 'none'
   }
 }
+
+
+
+
+
+
+
+
