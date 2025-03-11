@@ -17,15 +17,20 @@
       <li><a href="#">Wishlist</a></li>
       <li><a href="./contact.html">Contact us</a></li>
     </ul>
-    <div class="search-container">
+    <!-- <div class="search-container">
       <i class='bx bx-search-alt'></i>
       <input type="text" class="search" placeholder="Search">
-    </div>
+    </div> -->
     <ul class="icons">
-      <i class='bx bxs-cart'></i>
-      <i class='bx bx-search-alt'></i>
-      <a href="./login.html">Login</a>
+      <a href="./cart.html">
+        <i class="bx bxs-cart">
+          <span class="cart-badge">0</span>
+        </i>
+      </a>
+      <i class="bx bx-search-alt"></i>
+      <a href="./login.html" class="login-btn">Login</a>
     </ul>
+    
     <div class="toggle-button" onclick="showSideBar()">
       <span></span>
       <span></span>
@@ -57,7 +62,11 @@
   </section>
 
   <section id="all-wishlist-container">
-
+    <h1 class="products-heading">My Wishlist</h1>
+    <div class="wishlist-container">
+      
+    
+    </div>
   </section>
   
   <footer>
@@ -95,5 +104,97 @@
     <p>&copy; 2025 Sekanniii's Empire. All rights reserved.</p>
   </footer> 
   <script src="./js/script.js"></script> 
+
+  <script>
+    let products = []; // This will hold all products fetched
+    let wishlist = []; // This will be populated from localStorage
+
+    // Save the wishlist to localStorage
+    function saveWishlist() {
+      localStorage.setItem("wishlist", JSON.stringify(wishlist));
+    }
+
+    // Load the wishlist from localStorage
+    function loadWishlist() {
+      const savedWishlist = localStorage.getItem("wishlist");
+      if (savedWishlist) {
+        wishlist = JSON.parse(savedWishlist);
+      }
+    }
+
+    // Render wishlist products
+    function renderWishlist() {
+      const wishlistContainer = document.querySelector(".wishlist-container");
+      wishlistContainer.innerHTML = ""; // Clear previous wishlist
+
+      wishlist.forEach(productId => {
+        const product = products.find(p => p._id === productId);
+
+        if (product) {
+          const productHTML = `
+            <div class="items-container">
+              <div class="product-img-container">
+                <img src="/images/${product.image}" alt="${product.name}">
+                <i class="bx bxs-heart wishlist-icon" data-id="${product._id}"></i>
+              </div>
+              <div class="product-text">
+                <h4>${product.name}</h4>
+                <p>#${product.price}</p>
+                 <button class="product-btn">Buy Now</button>
+              </div>
+            </div>
+          `;
+          wishlistContainer.innerHTML += productHTML;
+        }
+      });
+
+      attachWishlistEventListeners(); // Attach event listeners for icons
+    }
+
+    // Attach event listeners to wishlist icons
+    function attachWishlistEventListeners() {
+      const wishlistContainer = document.querySelector(".wishlist-container");
+
+      wishlistContainer.addEventListener("click", (event) => {
+        if (event.target.classList.contains("wishlist-icon")) {
+          const productId = event.target.dataset.id;
+
+          if (wishlist.includes(productId)) {
+            // Remove from wishlist
+            wishlist = wishlist.filter(id => id !== productId);
+            saveWishlist(); // Save updated wishlist to localStorage
+
+            // Remove the product's HTML from the wishlist
+            renderWishlist();
+          }
+        }
+      });
+    }
+
+    // Fetch products and render wishlist
+    async function fetchProducts() {
+      try {
+        const response = await fetch("/api/products/list");
+        const result = await response.json();
+
+        if (result.success) {
+          products = result.data;
+          renderWishlist(); // Render the wishlist
+        } else {
+          console.error("Failed to fetch products:", result.message);
+        }
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    }
+
+    // Initialize wishlist and fetch products on page load
+    window.addEventListener("DOMContentLoaded", () => {
+      loadWishlist(); // Load wishlist from localStorage
+      fetchProducts(); // Fetch products and render wishlist
+    });
+
+
+  </script>
 </body>
 </html>

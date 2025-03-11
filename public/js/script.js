@@ -18,9 +18,16 @@ function showSideBar(){
 }
 
 
+// Initialize the cart count
+let cartCount = 0;
 
+// Function to update the cart count
+function updateCartCount() {
+  cartCount++;
+  document.querySelector('.cart-badge').textContent = cartCount;
+}
 
-
-
-
-
+// Example: Call updateCartCount when an item is added
+document.querySelector('.bxs-cart').addEventListener('click', () => {
+  updateCartCount();
+});

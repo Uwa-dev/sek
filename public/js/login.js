@@ -19,7 +19,7 @@ document.querySelector("#login-form").addEventListener("submit", async (event) =
       loginMessage.textContent = "Login successful";
       loginMessage.style.color = ' #6b896b';
       localStorage.setItem("token", data.token);
-      window.location.href = "./index.html";
+      window.location.href = "./admin/index.html";
     } else {
       loginMessage.textContent = data.message;
       loginMessage.style.color = '#af4848';

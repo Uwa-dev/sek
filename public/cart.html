@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="./styles.css">
+  <title>Sekanni - Cart</title>
+  <style>
+    body {
+      color: var(--text-color);
+      background-color: var(--background-color);
+    }
+  </style>
+</head>
+<body>
+  <nav data-animation="fade-in">
+    <img src="./assets/logo-removebg-preview.png" alt="" class="logo">
+    <ul class="navigation">
+      <li><a href="#">Home</a></li>
+      <li><a href="./about.html">About us</a></li>
+      <li><a href="./shop.html">Shop</a></li>
+      <li><a href="./wishlist.html">Wishlist</a></li>
+      <li><a href="./contact.html">Contact us</a></li>
+    </ul>
+    <!-- <div class="search-container">
+      <i class='bx bx-search-alt'></i>
+      <input type="text" class="search" placeholder="Search">
+    </div> -->
+    <ul class="icons">
+      <a href="./cart.html" >
+        <i class='bx bxs-cart'>
+          <span class="cart-badge">0</span>
+        </i>
+      </a>
+      <i class='bx bx-search-alt'></i>
+      <a href="./login.html" class="login-btn">Login</a>
+    </ul>
+    <div class="toggle-button" onclick="showSideBar()">
+      <span></span>
+      <span></span>
+      <span></span>
+
+      <ul class="phone-nav">
+        <li><a href="#">Home</a></li>
+        <li><a href="./about.html">About us</a></li>
+        <li><a href="./shop.html">Shop</a></li>
+        <li><a href="./wishlist.html">Wishlist</a></li>
+        <li><a href="./contact.html">Contact us</a></li>
+        <li><a href="./login.html">Login</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="cart-container">
+
+    <h1 class="cart-title">Your Cart</h1>
+    <div class="cart-items">
+      <div class="cart-item">
+        <img src="./assets/nice-bag.jpg" alt="Item 1">
+        <div class="item-details">
+          <div class="item-title">Item Name</div>
+          <div class="item-price">$25.00</div>
+          <div class="item-quantity">
+            <button class="quantity-button">-</button>
+            <span>1</span>
+            <button class="quantity-button">+</button>
+          </div>
+        </div>
+        <button class="quantity-button">Remove From Cart</button>
+      </div>
+    </div>
+
+    <div class="cart-summary">
+      <div class="summary-item">
+        <span>Subtotal</span>
+        <span>$25.00</span>
+      </div>
+      <div class="summary-item">
+        <span>Tax</span>
+        <span>$2.50</span>
+      </div>
+      <div class="summary-item">
+        <span>Shipping</span>
+        <span>$5.00</span>
+      </div>
+      <div class="summary-total">Total: $32.50</div>
+    </div>
+
+    <button class="checkout-btn">Proceed to Checkout</button>
+  </div>
+</body>
+</html>
