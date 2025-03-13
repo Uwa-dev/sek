@@ -85,3 +85,51 @@
 .btn-submit:hover {
   background-color: #0056b3;
 }
+
+.hidden {
+  display: none;
+}
+
+.delete-toast {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  border-radius: 8px;
+  z-index: 1000;
+  width: 300px;
+  text-align: center;
+}
+
+.toast-content p {
+  margin-bottom: 16px;
+  font-size: 16px;
+}
+
+.toast-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.toast-btn {
+  flex: 1;
+  padding: 10px;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.toast-btn.cancel {
+  background-color: #e63946;
+  color: #fff;
+}
+
+.toast-btn.confirm {
+  background-color: #2a9d8f;
+  color: #fff;
+}

@@ -61,11 +61,13 @@
     </div>
   </section>
 
+  <div id="toast" class="toast"></div>
+
   <section id="all-wishlist-container">
     <h1 class="products-heading">My Wishlist</h1>
     <div class="wishlist-container">
       
-    
+
     </div>
   </section>
   
@@ -104,23 +106,12 @@
     <p>&copy; 2025 Sekanniii's Empire. All rights reserved.</p>
   </footer> 
   <script src="./js/script.js"></script> 
+  <script src="./js/shared.js"></script>
 
   <script>
-    let products = []; // This will hold all products fetched
-    let wishlist = []; // This will be populated from localStorage
+    // wishlist.js
 
-    // Save the wishlist to localStorage
-    function saveWishlist() {
-      localStorage.setItem("wishlist", JSON.stringify(wishlist));
-    }
-
-    // Load the wishlist from localStorage
-    function loadWishlist() {
-      const savedWishlist = localStorage.getItem("wishlist");
-      if (savedWishlist) {
-        wishlist = JSON.parse(savedWishlist);
-      }
-    }
+    // let products = []; // This will hold all products fetched
 
     // Render wishlist products
     function renderWishlist() {
@@ -140,7 +131,7 @@
               <div class="product-text">
                 <h4>${product.name}</h4>
                 <p>#${product.price}</p>
-                 <button class="product-btn">Buy Now</button>
+                <button class="product-btn" data-id="${product._id}">Buy Now</button>
               </div>
             </div>
           `;
@@ -167,6 +158,9 @@
             // Remove the product's HTML from the wishlist
             renderWishlist();
           }
+        } else if (event.target.classList.contains("product-btn")) {
+          const productId = event.target.dataset.id;
+          addToCart(productId);
         }
       });
     }
@@ -190,11 +184,11 @@
 
     // Initialize wishlist and fetch products on page load
     window.addEventListener("DOMContentLoaded", () => {
-      loadWishlist(); // Load wishlist from localStorage
+      updateCartBadge();
       fetchProducts(); // Fetch products and render wishlist
     });
 
-
   </script>
+  
 </body>
 </html>

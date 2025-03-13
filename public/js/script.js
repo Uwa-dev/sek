@@ -28,6 +28,7 @@ function updateCartCount() {
 }
 
 // Example: Call updateCartCount when an item is added
-document.querySelector('.bxs-cart').addEventListener('click', () => {
-  updateCartCount();
-});
+// document.querySelector('.bxs-cart').addEventListener('click', () => {
+//   updateCartCount();
+// });
+

@@ -635,7 +635,24 @@ footer p {
   font-style: italic;
 }
 
-
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 1000;
+}
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
 
 .shop-hero {
   display: flex;
@@ -858,8 +875,15 @@ footer p {
   .navigation{
     display: none;
   }
-  .icons{
+  .icons .bx-search-alt{
     display: none;
+  }
+  .icons .login-btn{
+    display: none;
+  }
+  .icons{
+    margin-left: auto;
+    padding-right: 1.5rem;
   }
   /* .search-container{
     width: max-content;

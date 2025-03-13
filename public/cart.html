@@ -1,93 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8"> 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <title>My Cart</title>
   <link rel="stylesheet" href="./styles.css">
-  <title>Sekanni - Cart</title>
-  <style>
-    body {
-      color: var(--text-color);
-      background-color: var(--background-color);
-    }
-  </style>
 </head>
 <body>
-  <nav data-animation="fade-in">
-    <img src="./assets/logo-removebg-preview.png" alt="" class="logo">
-    <ul class="navigation">
-      <li><a href="#">Home</a></li>
-      <li><a href="./about.html">About us</a></li>
-      <li><a href="./shop.html">Shop</a></li>
-      <li><a href="./wishlist.html">Wishlist</a></li>
-      <li><a href="./contact.html">Contact us</a></li>
-    </ul>
-    <!-- <div class="search-container">
-      <i class='bx bx-search-alt'></i>
-      <input type="text" class="search" placeholder="Search">
-    </div> -->
-    <ul class="icons">
-      <a href="./cart.html" >
-        <i class='bx bxs-cart'>
-          <span class="cart-badge">0</span>
-        </i>
-      </a>
-      <i class='bx bx-search-alt'></i>
-      <a href="./login.html" class="login-btn">Login</a>
-    </ul>
-    <div class="toggle-button" onclick="showSideBar()">
-      <span></span>
-      <span></span>
-      <span></span>
-
-      <ul class="phone-nav">
-        <li><a href="#">Home</a></li>
-        <li><a href="./about.html">About us</a></li>
-        <li><a href="./shop.html">Shop</a></li>
-        <li><a href="./wishlist.html">Wishlist</a></li>
-        <li><a href="./contact.html">Contact us</a></li>
-        <li><a href="./login.html">Login</a></li>
-      </ul>
-    </div>
-  </nav>
-
+  <header>
+    <h1>My Cart</h1>
+  </header>
+  
   <div class="cart-container">
-
     <h1 class="cart-title">Your Cart</h1>
     <div class="cart-items">
-      <div class="cart-item">
-        <img src="./assets/nice-bag.jpg" alt="Item 1">
-        <div class="item-details">
-          <div class="item-title">Item Name</div>
-          <div class="item-price">$25.00</div>
-          <div class="item-quantity">
-            <button class="quantity-button">-</button>
-            <span>1</span>
-            <button class="quantity-button">+</button>
-          </div>
-        </div>
-        <button class="quantity-button">Remove From Cart</button>
-      </div>
+      <!-- Cart items will be dynamically added here -->
     </div>
-
+  
     <div class="cart-summary">
       <div class="summary-item">
         <span>Subtotal</span>
-        <span>$25.00</span>
-      </div>
-      <div class="summary-item">
-        <span>Tax</span>
-        <span>$2.50</span>
+        <span id="subtotal">#0.00</span>
       </div>
       <div class="summary-item">
         <span>Shipping</span>
-        <span>$5.00</span>
+        <span id="shipping">#0.00</span>
       </div>
-      <div class="summary-total">Total: $32.50</div>
+      <div class="summary-total">Total: <span id="total-price">#0.00</span></div>
     </div>
-
+  
     <button class="checkout-btn">Proceed to Checkout</button>
   </div>
+
+  <script>
+    // Retrieve cart data from localStorage
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  
+    console.log("Cart Data:", cart);
+    // Function to render cart items
+    function renderCartItems() {
+      const cartItemsContainer = document.querySelector(".cart-items");
+      const subtotalElement = document.getElementById("subtotal");
+      const shippingElement = document.getElementById("shipping");
+      const totalPriceElement = document.getElementById("total-price");
+  
+      // Clear the cart container
+      cartItemsContainer.innerHTML = "";
+  
+      let subtotal = 0;
+  
+      // Render each cart item
+      cart.forEach(item => {
+        const cartItemHTML = `
+          <div class="cart-item">
+            <img src="/images/${item.image}" alt="${item.name}">
+            <div class="item-details">
+              <div class="item-title">${item.name}</div>
+              <div class="item-price">#${item.price}</div>
+              <div class="item-quantity">
+                <button class="quantity-button" data-id="${item.id}" data-action="decrease">-</button>
+                <span>${item.quantity}</span>
+                <button class="quantity-button" data-id="${item.id}" data-action="increase">+</button>
+              </div>
+            </div>
+            <button class="remove-btn" data-id="${item.id}">Remove From Cart</button>
+          </div>
+        `;
+        cartItemsContainer.innerHTML += cartItemHTML;
+  
+        // Update subtotal
+        subtotal += item.price * item.quantity;
+      });
+  
+      // Calculate shipping (fixed #5.00) and total
+      const shipping = 5.00;
+      const total = subtotal + shipping;
+  
+      // Update the summary
+      subtotalElement.textContent = `#${subtotal.toFixed(2)}`;
+      shippingElement.textContent = `#${shipping.toFixed(2)}`;
+      totalPriceElement.textContent = `#${total.toFixed(2)}`;
+  
+      // Attach event listeners after rendering
+      attachEventListeners();
+    }
+  
+    // Function to remove an item from the cart
+    function removeItemFromCart(productId) {
+      cart = cart.filter(item => item.id != productId); // Use `!=` for loose comparison
+      localStorage.setItem("cart", JSON.stringify(cart));
+      renderCartItems(); // Re-render the cart after removal
+    }
+  
+    // Function to update item quantity
+    function updateItemQuantity(productId, action) {
+      const item = cart.find(item => item.id == productId); // Use `==` for loose comparison
+      if (item) {
+        if (action === "increase") {
+          item.quantity += 1;
+        } else if (action === "decrease" && item.quantity > 1) {
+          item.quantity -= 1;
+        }
+        localStorage.setItem("cart", JSON.stringify(cart));
+        renderCartItems(); // Re-render the cart after updating quantity
+      }
+    }
+  
+    // Attach event listeners to remove buttons and quantity buttons
+    function attachEventListeners() {
+      const removeButtons = document.querySelectorAll(".remove-btn");
+      const quantityButtons = document.querySelectorAll(".quantity-button");
+  
+      removeButtons.forEach(button => {
+        button.addEventListener("click", (event) => {
+          const productId = event.target.dataset.id;
+          removeItemFromCart(productId);
+        });
+      });
+  
+      quantityButtons.forEach(button => {
+        button.addEventListener("click", (event) => {
+          const productId = event.target.dataset.id;
+          const action = event.target.dataset.action;
+          updateItemQuantity(productId, action);
+        });
+      });
+    }
+  
+    // Initialize the cart page
+    window.addEventListener("DOMContentLoaded", () => {
+      renderCartItems(); // Render cart items on page load
+    });
+  </script>
 </body>
 </html>

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="./adminStyles.css">
   <title>All Products</title>
 </head>
 <body>
@@ -16,10 +17,10 @@
       <li><a href="">View Orders</a></li>
       <li><a href="./addProduct.html">Add</a></li>
     </ul>
-    <div class="search-container">
+    <!-- <div class="search-container">
       <i class='bx bx-search-alt'></i>
       <input type="text" class="search" placeholder="Search">
-    </div>
+    </div> -->
     <ul class="icons">
       <i class='bx bx-search-alt'></i>
       <a href=""><i class='bx bxs-user'></i></a>
@@ -51,8 +52,19 @@
       </div>
     </div>
   </section>
-  
 
+  <div id="toast" class="toast"></div>
+  
+  <div id="confirm-toast" class="delete-toast hidden">
+    <div class="toast-content">
+      <p>Are you sure you want to delete this product?</p>
+      <div class="toast-buttons">
+        <button id="cancel-btn" class="toast-btn cancel">Cancel</button>
+        <button id="confirm-btn" class="toast-btn confirm">Confirm</button>
+      </div>
+    </div>
+  </div>
+  
   <section id="items">
     <h1 class="products-heading">All Products</h1>
     <div class="all-items-container">
@@ -114,20 +126,23 @@
           // Loop through products and add them to the container
           products.forEach(product => {
             const productHTML = `
-              <div class="items-container">
+              <div class="items-container" data-id="${product._id}">
                 <div class="product-img-container">
                   <img src="/images/${product.image}" alt="${product.name}">
                 </div>
                 <div class="product-text">
                   <h4>${product.name}</h4>
                   <p>#${product.price}</p>
-                  <button class="product-btn">Delete</button>
+                  <button class="product-btn delete-btn">Delete</button>
                 </div>
               </div>
             `;
 
             container.innerHTML += productHTML;
           });
+
+          // Attach event listeners for delete buttons
+          attachDeleteListeners();
         } else {
           console.error("Failed to fetch products:", result.message);
         }
@@ -135,6 +150,76 @@
         console.error("Error fetching products:", error);
       }
     }
+
+    // Function to show toast notification
+    function showApprovedToast(message) {
+      const toast = document.getElementById("toast");
+      if (toast) {
+        toast.textContent = message;
+        toast.classList.add("show");
+
+        // Hide the toast after 3 seconds
+        setTimeout(() => {
+          toast.classList.remove("show");
+        }, 3000);
+      }
+    }
+
+    function showToast(productId, callback) {
+      const toast = document.getElementById("confirm-toast");
+      const cancelBtn = document.getElementById("cancel-btn");
+      const confirmBtn = document.getElementById("confirm-btn");
+
+      // Show the toast
+      toast.classList.remove("hidden");
+
+      // Cancel button handler
+      cancelBtn.onclick = () => {
+        toast.classList.add("hidden");
+      };
+
+      // Confirm button handler
+      confirmBtn.onclick = async () => {
+        toast.classList.add("hidden");
+
+        try {
+          const response = await fetch("/api/products/remove", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ id: productId }),
+          });
+
+          const result = await response.json();
+
+          if (result.success) {
+            showApprovedToast('Product removed successfully');
+            callback(); // Call the callback to refresh products
+          } else {
+            alert(`Failed to remove product: ${result.message}`);
+          }
+        } catch (error) {
+          console.error("Error removing product:", error);
+        }
+      };
+    }
+
+    // Update the delete button logic
+    function attachDeleteListeners() {
+      const deleteButtons = document.querySelectorAll(".delete-btn");
+
+      deleteButtons.forEach((button) => {
+        button.addEventListener("click", (event) => {
+          const productContainer = event.target.closest(".items-container");
+          const productId = productContainer.dataset.id;
+
+          // Show the custom toast
+          showToast(productId, fetchProducts);
+        });
+      });
+    }
+
 
     // Fetch products on page load
     window.addEventListener("DOMContentLoaded", fetchProducts);
