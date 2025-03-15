@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="./adminStyles.css">
+  <title>View Orders</title>
+  <style>
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+    .orders-container {
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .orders-title {
+      font-size: var(--biggest-font-size);
+      font-family: var(--h1-font);
+      color: var(--text-color);
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .table-wrapper {
+      overflow-x: auto;
+    }
+    .orders-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      min-width: 800px;
+    }
+    .orders-table th, .orders-table td {
+      padding: 1rem;
+      border: 1px solid var(--text-color);
+    }
+    .orders-table th {
+      background-color: var(--hero-color);
+      color: var(--text-color);
+    }
+    .orders-table td {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+    .order-action {
+      text-align: center;
+    }
+    .btn {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      font-size: var(--normal-font-size);
+      color: var(--text-color);
+      background-color: var(--hero-color);
+      border: none;
+      border-radius: 5px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .btn:hover {
+      background-color: var(--hover-color);
+    }
+  </style>
+</head>
+<body>
+  <nav data-animation="fade-in">
+    <img src="../assets/logo-removebg-preview.png" alt="Logo" class="logo">
+    <ul class="navigation">
+      <li><a href="./index.html">Home</a></li>
+      <li><a href="./listProduct.html">Products</a></li>
+      <li><a href="#">View Orders</a></li>
+      <li><a href="./addProduct.html">Add</a></li>
+    </ul>
+    <ul class="icons">
+      <i class='bx bx-search-alt'></i>
+      <a href=""><i class='bx bxs-user'></i></a>
+    </ul>
+    <div class="toggle-button" onclick="showSideBar()">
+      <span></span>
+      <span></span>
+      <span></span>
+      <ul class="phone-nav">
+        <li><a href="./index.html">Home</a></li>
+        <li><a href="./listProduct.html">Products</a></li>
+        <li><a href="#">View Orders</a></li>
+        <li><a href="./addProduct.html">Add</a></li>
+        <li><a href="../login.html">Login</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="orders-container">
+    <h1 class="orders-title">Customer Orders</h1>
+    <div class="table-wrapper">
+      <table class="orders-table">
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Customer Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Address</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Example order row -->
+          <tr>
+            <td>ORD001</td>
+            <td>Jane Doe</td>
+            <td>janedoe@example.com</td>
+            <td>+234 123 456 7890</td>
+            <td>123 Main Street, Lagos</td>
+            <td>₦25,000</td>
+            <td>Pending</td>
+            <td class="order-action">
+              <button class="btn">Mark as Delivered</button>
+            </td>
+          </tr>
+          <tr>
+            <td>ORD002</td>
+            <td>John Smith</td>
+            <td>johnsmith@example.com</td>
+            <td>+234 987 654 3210</td>
+            <td>456 Elm Avenue, Abuja</td>
+            <td>₦12,500</td>
+            <td>Delivered</td>
+            <td class="order-action">
+              <button class="btn">View Details</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-logo">
+        <img src="../assets/logo-removebg-preview.png" alt="Sekanni Logo" class="logo">
+      </div>
+      <div class="footer-item">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="./index.html">Home</a></li>
+          <li><a href="./about.html">About Us</a></li>
+          <li><a href="#">Shop</a></li>
+          <li><a href="./wishlist.html">Wishlist</a></li>
+          <li><a href="./contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-item">
+        <h4>Contact Us</h4>
+        <ul>
+          <li>Email: sekanniiiempire@gmail.com</li>
+          <li>Phone: +234 808 744 1369</li>
+        </ul>
+      </div>
+      <div class="footer-item">
+        <h4>Follow Us</h4>
+        <div class="social-icons">
+          <i class='bx bxl-facebook'></i>
+          <i class='bx bxl-instagram'></i>
+          <i class='bx bxl-twitter'></i>
+          <i class='bx bxl-youtube'></i>
+        </div>
+      </div>
+    </div>
+    <p>&copy; 2025 Sekanni. All rights reserved.</p>
+  </footer>
+  <script src="../js/script.js"></script>
+</body>
+</html>

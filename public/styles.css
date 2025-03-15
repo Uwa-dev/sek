@@ -9,12 +9,6 @@
   --hero-color: #322b18;
   --animation-delay: 800ms;
 
-  /* #a89050 gold
-  #9050a8 purple
-  #211c10 light black */
-
-  /* #322b18  hero background-color */
-
   
   --normal-font: 'poppins', san-serif;
   --h1-font: 'lobster', cursive;
@@ -28,13 +22,6 @@
   --normal-font-size: 1rem;
   --small-font-size: .875rem;
   --smaller-font-size: .813rem;
-}
-@media (max-width: 800px) {
-  :root{
-    --normal-font: 'poppins', san-serif;
-    --h1-font: 'lobster', cursive;
-    --agu-font: "Agu Display", serif;
-  }
 }
 
 *{

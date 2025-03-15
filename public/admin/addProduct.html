@@ -14,13 +14,10 @@
     <ul class="navigation">
       <li><a href="./index.html">Home</a></li>
       <li><a href="./listProduct.html">Products</a></li>
-      <li><a href="">View Orders</a></li>
+      <li><a href="./viewOrders.html">View Orders</a></li>
       <li><a href="#">Add</a></li>
     </ul>
-    <!-- <div class="search-container">
-      <i class='bx bx-search-alt'></i>
-      <input type="text" class="search" placeholder="Search">
-    </div> -->
+    
     <ul class="icons">
       <i class='bx bx-search-alt'></i>
       <a href=""><i class='bx bxs-user'></i></a>
@@ -33,9 +30,8 @@
       <ul class="phone-nav">
         <li><a href="./index.html">Home</a></li>
         <li><a href="./listProduct.html">Products</a></li>
-        <li><a href="">View Orders</a></li>
+        <li><a href="./viewOrders.html">View Orders</a></li>
         <li><a href="#">Add</a></li>
-        <li><a href="../login.html">Login</a></li>
       </ul>
     </div>
   </nav>
@@ -92,6 +88,45 @@
     </div>
   </section>
   <script src="../js/script.js"></script>
-  <script src="../js/addProduct.js"></script>
+  <script>
+    document.querySelector("#product-form").addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const productName = document.getElementById('productName').value;
+      const price = document.getElementById('productPrice').value;
+      const category = document.getElementById('categoryName').value;
+      const addMsg = document.getElementById('add-message')
+      const image = document.getElementById("productImage").files[0];
+
+      addMsg.textContent = "";
+
+      const formData = new FormData();
+        formData.append("productName", productName);
+        formData.append("price", price);
+        formData.append("category", category);
+        formData.append("image", image);
+
+      try {
+        const response = await fetch("http://localhost:5050/api/products/add", {
+          method: "POST",
+          // headers: { "Content-Type": "application/json" },
+          body: formData,
+        });
+
+        const data = await response.json();
+        if (data.success) {
+          addMsg.textContent = "Product added successfully";
+          addMsg.style.color = ' #1ca31c';
+        } else {
+          addMsg.textContent = data.message;
+          addMsg.style.color = '#b93030';
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        addMsg.textContent = 'An error occurred';
+        addMsg.style.color = '#b93030';
+      }
+    });
+  </script>
 </body>
 </html>

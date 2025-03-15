@@ -4,11 +4,12 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import connectDB from './backend/dbConnection.js';
 import path from 'path';
+import https from 'https';
 import { fileURLToPath } from 'url';
 // import upload from './backend/middleware/upload.js'
 import userRouter from './backend/routes/userRoutes.js';
 import productRouter from './backend/routes/productRoutes.js';
-
+import paymentRouter from './backend/routes/paymentRoutes.js'
 
 // Configure environment variables
 dotenv.config();
@@ -45,9 +46,48 @@ app.get('/', (req, res) => {
 
 app.use("/api/user", userRouter);
 app.use("/api/products", productRouter)
+app.use("/api/payment", paymentRouter)
 app.use("/images",express.static('uploads'))
 
+//render paystack html file
+app.get('/paystack', function(req, res) {
+  // const https = require('https')
+  
 
+  const params = JSON.stringify({
+    "email": "customer@email.com",
+    "amount": "20000"
+  })
+
+  const options = {
+    hostname: 'api.paystack.co',
+    port: 443,
+    path: '/transaction/initialize',
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
+      'Content-Type': 'application/json'
+    }
+  }
+
+  const reqpastack = https.request(options, respaystack => {
+    let data = ''
+
+    respaystack.on('data', (chunk) => {
+      data += chunk
+    });
+
+    respaystack.on('end', () => {
+      res.send(data)
+      console.log(JSON.parse(data))
+    })
+  }).on('error', error => {
+    console.error(error)
+  })
+
+  reqpastack.write(params)
+  reqpastack.end()
+});
 // Start the server
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);

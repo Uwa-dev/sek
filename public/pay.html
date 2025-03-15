@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./styles.css">
+  <title>Payment Form</title>
+  <style>
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .payment-form {
+      background-color: var(--hero-color);
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 400px;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .payment-form h1 {
+      font-family: var(--h1-font);
+      font-size: var(--h1-font-size);
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: var(--normal-font-size);
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      border: 1px solid var(--text-color);
+      font-size: var(--normal-font-size);
+      background-color: var(--background-color);
+      color: var(--text-color);
+      box-sizing: border-box;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--hover-color);
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 1rem;
+      font-size: var(--h2-font-size);
+      background-color: var(--text-color);
+      color: var(--background-color);
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.3s ease-in-out;
+    }
+
+    .submit-btn:hover {
+      background-color: var(--hover-color);
+      transform: scale(1.02);
+    }
+
+    .submit-btn:active {
+      transform: scale(0.98);
+    }
+
+    @media (min-width: 768px) {
+      body {
+        padding: 2rem;
+      }
+
+      .payment-form {
+        padding: 2.5rem;
+        transform: scale(1);
+      }
+
+      .payment-form h1 {
+        font-size: 2rem;
+      }
+
+      .form-group input {
+        font-size: 1rem;
+      }
+
+      .submit-btn {
+        font-size: 1.25rem;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .payment-form {
+        max-width: 500px;
+        padding: 3rem;
+      }
+
+      .payment-form h1 {
+        font-size: 2.5rem;
+      }
+
+      .submit-btn {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <form class="payment-form" id="paymentForm">
+    <h1>Payment</h1>
+    <div class="form-group">
+      <label for="full_name">Full Name</label>
+      <input type="text" id="full_name" name="full_name" required>
+    </div>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required>
+    </div>
+    <div class="form-group">
+      <label for="amount">Amount (in NGN)</label>
+      <input type="number" id="amount" name="amount" readonly required>
+    </div>
+    <div class="form-group">
+      <label for="address">Delivery Address</label>
+      <input type="text" id="address" name="address" required>
+    </div>
+    <button type="submit" class="submit-btn">Pay Now</button>
+  </form>
+
+  <script>
+    // Retrieve the total amount from the cart and populate the amount field
+    document.addEventListener("DOMContentLoaded", () => {
+      const totalPrice = JSON.parse(localStorage.getItem("total")) || 0; // Assuming total is stored in localStorage
+      document.getElementById("amount").value = totalPrice; // Set the amount field to the cart's total
+    });
+
+    document.getElementById("paymentForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const full_name = document.getElementById("full_name").value;
+        const email = document.getElementById("email").value;
+        const address = document.getElementById("address").value;
+
+        // Retrieve cart data from localStorage
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        // Send necessary data to the backend
+        const paymentData = {
+            full_name,
+            email,
+            address,
+            cart, // Include cart data for unregistered users
+        };
+
+        try {
+            const response = await fetch("/api/payment", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(paymentData),
+            });
+
+            const data = await response.json();
+
+            if (data.status) {
+            // Redirect to Paystack payment page
+            window.location.href = data.data.authorization_url;
+            } else {
+            alert("Failed to initialize payment. Please try again.");
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            alert("An error occurred while processing your payment.");
+        }
+    });
+  </script>
+</body>
+</html>

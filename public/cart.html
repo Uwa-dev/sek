@@ -36,7 +36,6 @@
     // Retrieve cart data from localStorage
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
   
-    console.log("Cart Data:", cart);
     // Function to render cart items
     function renderCartItems() {
       const cartItemsContainer = document.querySelector(".cart-items");
@@ -72,8 +71,8 @@
         subtotal += item.price * item.quantity;
       });
   
-      // Calculate shipping (fixed #5.00) and total
-      const shipping = 5.00;
+      // Calculate shipping
+      const shipping = 6000.00;
       const total = subtotal + shipping;
   
       // Update the summary
@@ -126,7 +125,22 @@
         });
       });
     }
-  
+    
+
+    document.querySelector(".checkout-btn").addEventListener("click", () => {
+      const totalPriceElement = document.getElementById("total-price");
+      
+      // Extract the total price from the cart summary
+      const totalPrice = parseFloat(totalPriceElement.textContent.replace("#", ""));
+      
+      // Store the total price in localStorage
+      localStorage.setItem("total", totalPrice.toFixed(2)); // Save as a number
+      
+      // Redirect to the payment form
+      window.location.href = "pay.html";
+    });
+
+
     // Initialize the cart page
     window.addEventListener("DOMContentLoaded", () => {
       renderCartItems(); // Render cart items on page load
