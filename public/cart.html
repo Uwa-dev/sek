@@ -3,15 +3,56 @@
 <head>
   <meta charset="UTF-8"> 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Cart</title>
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet" href="./styles.css">
+  <link rel="icon" href="./assets/logo-removebg-preview.png" type="image/png">
+  <title>My Cart - Sekanni</title>
 </head>
 <body>
-  <header>
-    <h1>My Cart</h1>
-  </header>
+  <nav data-animation="fade-in">
+    <img src="./assets/logo-removebg-preview.png" alt="" class="logo">
+    <ul class="navigation">
+      <li><a href="./index.html">Home</a></li>
+      <li><a href="./about.html">About us</a></li>
+      <li><a href="./shop.html">Shop</a></li>
+      <li><a href="./wishlist.html">Wishlist</a></li>
+      <li><a href="./contact.html">Contact us</a></li>
+    </ul>
+
+    <ul class="icons">
+      <a href="#">
+        <i class="bx bxs-cart">
+          <span class="cart-badge">0</span>
+        </i>
+      </a>
+      <i class="bx bx-search-alt"></i>
+      <a href="./login.html" class="login-btn">Login</a>
+    </ul>
+    
+    <div class="toggle-button" onclick="showSideBar()">
+      <span></span>
+      <span></span>
+      <span></span>
+
+      <ul class="phone-nav">
+        <li><a href="./index.html">Home</a></li>
+        <li><a href="./about.html">About us</a></li>
+        <li><a href="./shop.html">Shop</a></li>
+        <li><a href="./wishlist.html">Wishlist</a></li>
+        <li><a href="./contact.html">Contact us</a></li>
+        <li><a href="./login.html">Login</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section id="shop-container" data-animation="fade-in">
+    <div class="shop-container">
+      <h1 class="shop-heading">Cart</h1>
+    </div>
+  </section>
   
-  <div class="cart-container">
+  
+  <div class="cart-container" data-animation="fade-in">
     <h1 class="cart-title">Your Cart</h1>
     <div class="cart-items">
       <!-- Cart items will be dynamically added here -->
@@ -32,6 +73,7 @@
     <button class="checkout-btn">Proceed to Checkout</button>
   </div>
 
+  <script src="./js/script.js"></script>
   <script>
     // Retrieve cart data from localStorage
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -86,14 +128,14 @@
   
     // Function to remove an item from the cart
     function removeItemFromCart(productId) {
-      cart = cart.filter(item => item.id != productId); // Use `!=` for loose comparison
+      cart = cart.filter(item => item.id != productId); 
       localStorage.setItem("cart", JSON.stringify(cart));
-      renderCartItems(); // Re-render the cart after removal
+      renderCartItems(); 
     }
   
     // Function to update item quantity
     function updateItemQuantity(productId, action) {
-      const item = cart.find(item => item.id == productId); // Use `==` for loose comparison
+      const item = cart.find(item => item.id == productId); 
       if (item) {
         if (action === "increase") {
           item.quantity += 1;
@@ -101,7 +143,7 @@
           item.quantity -= 1;
         }
         localStorage.setItem("cart", JSON.stringify(cart));
-        renderCartItems(); // Re-render the cart after updating quantity
+        renderCartItems(); 
       }
     }
   

@@ -17,16 +17,22 @@ document.querySelector("#login-form").addEventListener("submit", async (event) =
     const data = await response.json();
     if (data.success) {
       loginMessage.textContent = "Login successful";
-      loginMessage.style.color = ' #6b896b';
+      loginMessage.style.color = "#6b896b";
       localStorage.setItem("token", data.token);
-      window.location.href = "./admin/index.html";
+
+      // Redirect based on admin status
+      if (data.isAdmin) {
+        window.location.href = "./admin/index.html";
+      } else {
+        window.location.href = "./index.html";
+      }
     } else {
       loginMessage.textContent = data.message;
-      loginMessage.style.color = '#af4848';
+      loginMessage.style.color = "#af4848";
     }
   } catch (error) {
     console.error("Error:", error);
     loginMessage.textContent = "An error occurred during login";
-    loginMessage.style.color = '#af4848';
+    loginMessage.style.color = "#af4848";
   }
 });

@@ -6,7 +6,30 @@
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet" href="../styles.css">
   <link rel="stylesheet" href="./adminStyles.css">
-  <title>All Products</title>
+  <link rel="icon" href="../assets/logo-removebg-preview.png" type="image/png">
+  <title>All Products - Sekanniii</title>
+  <style>
+    .price-input {
+      display: inline-block;
+      width: 100px;
+      margin-top: 5px;
+      height: 30px;
+      padding: 8px;
+      color: var(--hover-color);
+      font-size: var(--normal-font-size);
+      border: solid 1.5px var(--hover-color);
+      outline: none;
+    }
+
+    .save-price-btn {
+        margin-left: 5px;
+    }
+
+    .hidden{
+      display: none;
+    }
+    
+  </style>
 </head>
 <body>
   <nav data-animation="fade-in">
@@ -20,6 +43,7 @@
     <ul class="icons">
       <i class='bx bx-search-alt'></i>
       <a href=""><i class='bx bxs-user'></i></a>
+      <a href="./login.html" class="login-btn">Login</a>
     </ul>
     <div class="toggle-button" onclick="showSideBar()">
       <span></span>
@@ -35,16 +59,9 @@
     </div>
   </nav>
 
-  <section id="shop-hero" data-animation="fade-in">
-    <div class="shop-hero">
-      <div class="shop-hero-content">
-        <h1>Discover the Perfect Bag for Every Style</h1>
-        <p>Your journey to elegance begins here. Explore our premium collection of bags crafted to complement every look.</p>
-        <a href="#shop" class="shop-btn">Shop Now</a>
-      </div>
-      <div class="shop-hero-img-container">
-        <img src="../assets/renamedbag.jpg" alt="Stylish Bag" class="shop-hero-img">
-      </div>
+  <section id="shop-container" data-animation="fade-in">
+    <div class="shop-container">
+      <h1 style="font-size: 2rem;" class="shop-heading">Manage Products</h1>
     </div>
   </section>
 
@@ -102,49 +119,54 @@
     <p>&copy; 2025 Sekanni. All rights reserved.</p>
   </footer> 
   
-  <script src="../js/script.js"></script>
+  <script src="../js/admin.js"></script>
   <script>
     async function fetchProducts() {
-      try {
-        const response = await fetch("/api/products/list");
-        const result = await response.json();
+        try {
+            const response = await fetch("/api/products/list");
+            const result = await response.json();
 
-        if (result.success) {
-          const products = result.data;
+            if (result.success) {
+                const products = result.data;
 
-          // Get the container where products will be displayed
-          const container = document.querySelector(".all-items-container");
+                // Get the container where products will be displayed
+                const container = document.querySelector(".all-items-container");
 
-          // Clear any existing content
-          container.innerHTML = "";
+                // Clear any existing content
+                container.innerHTML = "";
 
-          // Loop through products and add them to the container
-          products.forEach(product => {
-            const productHTML = `
-              <div class="items-container" data-id="${product._id}">
-                <div class="product-img-container">
-                  <img src="/images/${product.image}" alt="${product.name}">
-                </div>
-                <div class="product-text">
-                  <h4>${product.name}</h4>
-                  <p>#${product.price}</p>
-                  <button class="product-btn delete-btn">Delete</button>
-                </div>
-              </div>
-            `;
+                // Loop through products and add them to the container
+                products.forEach(product => {
+                    const productHTML = `
+                        <div class="items-container" data-id="${product._id}">
+                            <div class="product-img-container">
+                                <img src="/images/${product.image}" alt="${product.name}">
+                            </div>
+                            <div class="product-text">
+                                <h4>${product.name}</h4>
+                                <p>#<span class="price">${product.price}</span></p>
+                                <input type="number" class="price-input hidden" placeholder="Enter new price" />
+                                <button class="product-btn update-price-btn">Update</button>
+                                <button class="product-btn save-price-btn hidden">Save</button>
+                                <button class="product-btn delete-btn">Delete</button>
+                            </div>
+                        </div>
+                    `;
 
-            container.innerHTML += productHTML;
-          });
+                    container.innerHTML += productHTML;
+                });
 
-          // Attach event listeners for delete buttons
-          attachDeleteListeners();
-        } else {
-          console.error("Failed to fetch products:", result.message);
+                // Reattach event listeners after rendering products
+                attachDeleteListeners(); // For delete buttons
+                attachUpdateListeners(); // For update/save buttons
+            } else {
+                console.error("Failed to fetch products:", result.message);
+            }
+        } catch (error) {
+            console.error("Error fetching products:", error);
         }
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
     }
+
 
     // Function to show toast notification
     function showApprovedToast(message) {
@@ -217,7 +239,91 @@
 
 
     // Fetch products on page load
-    window.addEventListener("DOMContentLoaded", fetchProducts);
+    // window.addEventListener("DOMContentLoaded", fetchProducts);
+
+    function attachUpdateListeners() {
+      const updateButtons = document.querySelectorAll(".update-price-btn");
+      const saveButtons = document.querySelectorAll(".save-price-btn");
+
+      updateButtons.forEach((button) => {
+        button.addEventListener("click", (event) => {
+          const productContainer = event.target.closest(".items-container");
+          const priceDisplay = productContainer.querySelector(".price");
+          const priceInput = productContainer.querySelector(".price-input");
+          const saveButton = productContainer.querySelector(".save-price-btn");
+
+          // Store the old price as a data attribute
+          const oldPrice = priceDisplay.textContent;
+          priceInput.value = oldPrice; // Populate the input field with the current price
+          productContainer.dataset.oldPrice = oldPrice;
+
+          // Show the input and save button, hide the update button
+          priceDisplay.classList.add("hidden");
+          priceInput.classList.remove("hidden");
+          saveButton.classList.remove("hidden");
+          button.classList.add("hidden");
+        });
+      });
+
+      saveButtons.forEach((button) => {
+        button.addEventListener("click", async (event) => {
+          const productContainer = event.target.closest(".items-container");
+          const productId = productContainer.dataset.id;
+          const priceInput = productContainer.querySelector(".price-input");
+          const priceDisplay = productContainer.querySelector(".price");
+          const updateButton = productContainer.querySelector(".update-price-btn");
+          const saveButton = productContainer.querySelector(".save-price-btn");
+
+          const newPrice = priceInput.value;
+          const oldPrice = productContainer.dataset.oldPrice;
+
+          if (!newPrice || isNaN(newPrice) || newPrice <= 0) {
+            // Revert to the old price if input is invalid
+            alert("Please enter a valid price.");
+            priceInput.value = oldPrice;
+            return;
+          }
+
+          try {
+              const response = await fetch("/api/products/update-price", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ id: productId, price: newPrice }),
+              });
+
+              const result = await response.json();
+
+              if (result.success) {
+                showApprovedToast("Price updated successfully!");
+                fetchProducts(); // Refresh the product list
+              } else {
+                alert(`Failed to update price: ${result.message}`);
+                // Revert to the old price in case of failure
+                priceInput.value = oldPrice;
+              }
+          } catch (error) {
+            console.error("Error updating price:", error);
+            // Revert to the old price in case of an error
+            priceInput.value = oldPrice;
+          }
+
+            // Hide input and save button, show price and update button
+          priceInput.classList.add("hidden");
+          saveButton.classList.add("hidden");
+          priceDisplay.classList.remove("hidden");
+          updateButton.classList.remove("hidden");
+        });
+      });
+    }
+
+
+
+  // Call attachUpdateListeners after fetching products
+  window.addEventListener("DOMContentLoaded", () => {
+    fetchProducts();
+    attachUpdateListeners();
+  });
+
 
   </script>
 </body>

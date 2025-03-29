@@ -133,3 +133,152 @@
   background-color: #2a9d8f;
   color: #fff;
 }
+
+/* index page  */
+.dashboard-heading{
+  text-align: center;
+  font-size: var(--h1-font-size);
+}
+
+.dashboard-overview {
+  display: flex;
+  justify-content: space-around;
+  /* margin: 20px; */
+  padding: 20px;
+  gap: 5px
+}
+
+.button-like {
+  background-color: var(--hero-color);
+  color: var(--text-color);
+  padding: 20px;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+  /* width: 200px; */
+}
+
+.button-like:hover {
+  background-color: var(--hover-color);
+}
+
+.sales-goal {
+  background-color: var(--hero-color);
+  color: var(--text-color);
+  padding: 20px;
+  border-radius: 10px;
+  margin: 20px auto;
+  width: 80%;
+  text-align: center;
+}
+
+.sales-goal input {
+  padding: 10px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 5px;
+  width: 50%;
+}
+
+.sales-goal button {
+  padding: 10px 20px;
+  background-color: var(--text-color);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.sales-goal button:hover {
+  background-color: var(--hover-color);
+}
+
+.sales-goal progress {
+  width: 80%;
+  margin-top: 20px;
+  height: 20px;
+  border-radius: 10px;
+  appearance: none;
+}
+
+.sales-goal progress::-webkit-progress-bar {
+  background-color: var(--background-color);
+  border-radius: 10px;
+}
+
+.sales-goal progress::-webkit-progress-value {
+  background-color: var(--text-color);
+  border-radius: 10px;
+}
+
+.order-details{
+  padding: 1rem;
+  color: var(--text-color);
+}
+.order-details h1{
+  text-align: center;
+  font-size: var(--h1-font-size);
+  text-decoration: underline;
+}
+.order-summary {
+  background-color: var(--hero-color);
+  border: 1px solid var(--text-color);
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin: 1rem auto;
+  max-width: 600px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.order-summary p {
+  font-size: var(--normal-font-size);
+  margin-bottom: 1rem;
+}
+
+.order-summary p strong {
+  font-weight: bold;
+  color: var(--hover-color);
+}
+
+.order-summary p span {
+  color: var(--text-color);
+}
+
+.order-summary h3 {
+  font-size: var(--h2-font-size);
+  margin-bottom: 1rem;
+  color: var(--text-color);
+}
+
+#products-list {
+  list-style: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+#products-list li {
+  font-size: var(--normal-font-size);
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+}
+
+.delivery-button {
+  display: block;
+  margin: 0 auto;
+  padding: 0.5rem 1.5rem;
+  font-size: var(--normal-font-size);
+  /* color: var(--background-color); */
+  color: #ddd;
+  background-color: var(--hover-color);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.delivery-button:hover {
+  background-color: var(--text-color);
+}

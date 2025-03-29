@@ -4,8 +4,43 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="./adminStyles.css">
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-  <title>Sekanni</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="icon" href="../assets/logo-removebg-preview.png" type="image/png">
+  <title>Admin - Sekanniii</title>
+  <style>
+    body {
+    font-family: var(--normal-font);
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+  }
+
+  .chart-section {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background: var(--hero-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    animation: fadeIn var(--animation-delay) ease-in-out;
+  }
+
+  .chart-section h1 {
+    margin-bottom: 20px;
+    font-size: var(--h1-font-size);
+    color: var(--text-color);
+    font-family: var(--h1-font);
+  }
+
+  canvas {
+    max-width: 100%;
+    height: auto;
+  }
+  </style>
 </head>
 <body>
   <nav data-animation="fade-in">
@@ -16,13 +51,11 @@
       <li><a href="./viewOrders.html">View Orders</a></li>
       <li><a href="./addProduct.html">Add</a></li>
     </ul>
-    <!-- <div class="search-container">
-      <i class='bx bx-search-alt'></i>
-      <input type="text" class="search" placeholder="Search">
-    </div> -->
+  
     <ul class="icons">
       <i class='bx bx-search-alt'></i>
       <a href=""><i class='bx bxs-user'></i></a>
+      <a href="./login.html" class="login-btn">Login</a>
     </ul>
     <div class="toggle-button" onclick="showSideBar()">
       <span></span>
@@ -38,119 +71,60 @@
     </div>
   </nav>
 
-  <section id="hero" data-animation="fade-in">
-    <div class="hero-content">
-      <h1>Where Confidence Meets <span>Style</span> and <span>Elegance</span></h1>
-      <h3>Timeless African Beads for Every Occasion</h3>
-      <div class="hero-paragraph">
-        <p>
-          Celebrate your unique style with our handcrafted African bead collection—designed to inspire confidence, complement your look, and honor tradition with elegance.
-        </p>
-      </div>
-      <a href="" class="hero-btn">Explore the Collection</a>
-    </div>
+  <section class="chart-section">
+    <h1>Sales for the Last 12 Months</h1>
+    <canvas id="salesChart"></canvas>
   </section>
 
-  <section id="products">
-    <h1 class="products-heading">The Newest Collection</h1>
+  <section data-animation="fade-in">
+    <h1 class="dashboard-heading">Yearly Overview</h1>
+    <div class="dashboard-overview">
+      <!-- Total Sales -->
+      <div class="button-like">
+        <h2>Total Sales</h2>
+        <p id="total-sales">₦1,200,000</p>
+      </div>
     
-    <div class="all-products-container">
-      <div class="product-container">
-        <div class="product-img-container">
-          <img src="../assets/nice-bag.jpg" alt="">
-          <i class='bx bx-heart'></i>
-        </div>
-        <div class="product-text">
-          <h4>Product Name</h4>
-          <p>#28000</p>
-          <button class="product-btn">Buy Now</button>
-        </div>  
-      </div>
-      <div class="product-container">
-        <div class="product-img-container">
-          <img src="../assets/nice-bag.jpg" alt="">
-          <i class='bx bx-heart'></i>
-        </div>
-        <div class="product-text">
-          <h4>Product Name</h4>
-          <p>#28000</p>
-          <button class="product-btn">Buy Now</button>
-        </div>  
-      </div>
-      <div class="product-container">
-        <div class="product-img-container">
-          <img src="../assets/WhatsApp Image 2024-10-28 at 14.38.03_7cd97aa9.jpg" alt="">
-          <i class='bx bx-heart'></i>
-        </div>
-        <div class="product-text">
-          <h4>Flower Vase</h4>
-          <p>#15000</p>
-          <button class="product-btn">Buy Now</button>
-        </div>  
-      </div>
-      <div class="product-container">
-        <div class="product-img-container">
-          <img src="../assets/WhatsApp Image 2024-10-28 at 14.38.03_d8997271.jpg" alt="">
-          <i class='bx bx-heart'></i>
-        </div>
-        <div class="product-text">
-          <h4>Phoebe</h4>
-          <p>#35000</p>
-          <button class="product-btn">Buy Now</button>
-        </div>  
-      </div>
-      <div class="product-container">
-        <div class="product-img-container">
-          <img src="../assets/WhatsApp Image 2024-10-28 at 14.38.02_f1ca0eaf.jpg" alt="">
-          <i class='bx bx-heart'></i>
-        </div>
-        <div class="product-text">
-          <h4>Lilies</h4>
-          <p>#25000</p>
-          <button class="product-btn">Buy Now</button>
-        </div>  
-      </div>
-      <div class="more-products">
-        <a href=""><i class='bx bxs-right-arrow-circle'></i></a>
-        <h4>View more</h4>
+      <!-- Total Products Sold -->
+      <div class="button-like">
+        <h2>Items Sold</h2>
+        <p id="items-sold">500 Units</p>
       </div>
     </div>
   </section>
-  <section id="testimonials">
-    <h1 class="testimonials-heading">What Our Customers Say</h1>
-    <div class="testimonials-container">
-      <div class="testimonial">
-        <p>"The beads are absolutely stunning! They add a touch of elegance to every outfit."</p>
-        <h4>- Oluwatobi A.</h4>
-      </div>
-      <div class="testimonial">
-        <p>"I love the cultural significance behind every piece. Sekanni truly stands out."</p>
-        <h4>- Semilore O.</h4>
-      </div>
-      <div class="testimonial">
-        <p>"Great quality and exceptional craftsmanship. I'm a loyal customer for life!"</p>
-        <h4>- Chukwma C.</h4>
-      </div>
-    </div>
-  </section>  
 
-  <section id="faqs">
-    <h1 class="faq-heading">Frequently Asked Questions</h1>
-    <div class="faq-container">
-      <div class="faq">
-        <h4>How long does shipping take?</h4>
-        <p>Shipping typically takes 5-7 business days, depending on your location.</p>
+  <section data-animation="fade-in">
+    <h1 class="dashboard-heading">Monthly Overview</h1>
+    <div class="dashboard-overview">
+      <!-- Total Sales -->
+      <div class="button-like">
+        <h2>Total Sales</h2>
+        <p id="monthly-total-sales">₦1,200,000</p>
       </div>
-      <div class="faq">
-        <h4>Are the beads handmade?</h4>
-        <p>Yes, all our beads are handcrafted by skilled artisans.</p>
-      </div>
-      <div class="faq">
-        <h4>Do you offer custom designs?</h4>
-        <p>We do! Contact us to discuss your custom bead requirements.</p>
+    
+      <!-- Total Products Sold -->
+      <div class="button-like">
+        <h2>Items Sold</h2>
+        <p id="monthly-items-sold">500 Units</p>
       </div>
     </div>
   </section>
+  
+  <section class="sales-goal">
+    <h1>Set Monthly Sales Goal</h1>
+    <input
+      type="number"
+      id="salesGoalInput"
+      placeholder="Enter Sales Goal (₦)"
+    />
+    <button id="goalButton" onclick="toggleGoal()">Set Goal</button>
+    <div id="progressWrapper" style="display: none;">
+      <h2>Sales Goal Progress</h2>
+      <progress id="salesProgress" value="0" max="100"></progress>
+      <p id="progressText">₦0 of ₦0 achieved</p>
+    </div>
+  </section>
+  
   <footer>
     <div class="footer-container">
       <div class="footer-logo">
@@ -186,6 +160,144 @@
   </footer>  
   
   
-  <script src="./script.js"></script>
+  <script src="../js/admin.js"></script>
+  <script src="../js/chart.js"></script>
+  <script>
+
+    async function fetchYearlyOverview() {
+      try {
+        const response = await fetch("/api/sales/yearly-overview");
+        const result = await response.json();
+
+        if (result.success) {
+          document.getElementById("total-sales").textContent = `₦${result.totalSales.toLocaleString()}`;
+          document.getElementById("items-sold").textContent = `${result.totalItemsSold} Units`;
+        } else {
+          console.error("Failed to fetch yearly overview:", result.message);
+        }
+      } catch (error) {
+        console.error("Error fetching yearly overview:", error);
+      }
+    }
+
+    async function fetchMonthlyOverview() {
+      try {
+        const response = await fetch("/api/sales/monthly-overview");
+        const result = await response.json();
+
+        if (result.success) {
+          document.getElementById("monthly-total-sales").textContent = `₦${result.totalSales.toLocaleString()}`;
+          document.getElementById("monthly-items-sold").textContent = `${result.totalItemsSold} Units`;
+        } else {
+          console.error("Failed to fetch monthly overview:", result.message);
+        }
+      } catch (error) {
+        console.error("Error fetching monthly overview:", error);
+      }
+    }
+
+
+    let salesGoal = 0;
+    let currentSales = 0;
+
+   // Load the sales goal and current progress from localStorage
+    function loadGoal() {
+      const savedGoal = localStorage.getItem("salesGoal");
+      const savedSales = localStorage.getItem("currentSales");
+
+      if (savedGoal) {
+        salesGoal = parseInt(savedGoal, 10);
+        currentSales = parseInt(savedSales, 10) || 0;
+
+        document.getElementById("salesGoalInput").value = salesGoal;
+        document.getElementById("progressWrapper").style.display = "block";
+        document.getElementById("goalButton").textContent = "Cancel Goal";
+
+        updateProgress();
+
+      }
+    }
+
+    // Toggle between setting and canceling goal
+    function toggleGoal() {
+      if (salesGoal > 0) {
+        cancelGoal();
+      } else {
+        setGoal();
+      }
+    }
+
+
+    // Save the sales goal to localStorage
+    function setGoal() {
+      const input = document.getElementById("salesGoalInput");
+      salesGoal = parseInt(input.value, 10);
+
+      if (!isNaN(salesGoal) && salesGoal > 0) {
+        localStorage.setItem("salesGoal", salesGoal);
+        localStorage.setItem("currentSales", currentSales);
+
+        document.getElementById("progressWrapper").style.display = "block";
+        document.getElementById("goalButton").textContent = "Cancel Goal";
+
+        updateProgress();
+      } else {
+        alert("Please enter a valid sales goal.");
+      }
+    }
+
+    // Cancel the sales goal
+    function cancelGoal() {
+      salesGoal = 0;
+      currentSales = 0;
+      localStorage.removeItem("salesGoal");
+      localStorage.removeItem("currentSales");
+
+      document.getElementById("progressWrapper").style.display = "none";
+      document.getElementById("goalButton").textContent = "Set Goal";
+      document.getElementById("salesGoalInput").value = "";
+    }
+
+    // Update the progress bar and text
+    function updateProgress() {
+      const progressBar = document.getElementById("salesProgress");
+      const progressText = document.getElementById("progressText");
+
+      const percentage = (salesGoal > 0) ? (currentSales / salesGoal) * 100 : 0;
+      progressBar.value = Math.min(percentage, 100);
+      progressText.textContent = `₦${currentSales.toLocaleString()} of ₦${salesGoal.toLocaleString()} achieved`;
+    }
+
+    // Fetch real-time sales data
+    async function updateMonthlySales() {
+      try {
+        const response = await fetch("/api/sales/monthly-overview");
+        const result = await response.json();
+
+        if (result.success) {
+          currentSales = result.totalSales;
+          localStorage.setItem("currentSales", currentSales);
+          updateProgress();
+        } else {
+          console.error("Failed to fetch monthly sales:", result.message);
+        }
+      } catch (error) {
+        console.error("Error fetching monthly sales:", error);
+      }
+    }
+
+
+    // Load the goal when the page loads
+    window.onload = () => {
+      loadGoal();
+      updateMonthlySales()
+    };
+
+    
+
+    // Call the function when the page loads
+    fetchYearlyOverview();
+    fetchMonthlyOverview();
+  </script>
 </body>
 </html>

@@ -6,7 +6,8 @@
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet" href="../styles.css">
   <link rel="stylesheet" href="./adminStyles.css">
-  <title>Add Product</title>
+  <link rel="icon" href="../assets/logo-removebg-preview.png" type="image/png">
+  <title>Add Product - Sekanniii</title>
 </head>
 <body>
   <nav data-animation="fade-in">
@@ -21,6 +22,7 @@
     <ul class="icons">
       <i class='bx bx-search-alt'></i>
       <a href=""><i class='bx bxs-user'></i></a>
+      <a href="./login.html" class="login-btn">Login</a>
     </ul>
     <div class="toggle-button" onclick="showSideBar()">
       <span></span>
@@ -44,7 +46,7 @@
     </div>
   </section>
 
-  <section id="add-product-container">
+  <section id="add-product-container" data-animation="fade-in">
     <div class="add-product-container">
       <h1>Add Product</h1>
       <form id="product-form" enctype="multipart/form-data">
@@ -87,7 +89,7 @@
       </form>
     </div>
   </section>
-  <script src="../js/script.js"></script>
+  <script src="../js/admin.js"></script>
   <script>
     document.querySelector("#product-form").addEventListener("submit", async (event) => {
       event.preventDefault();

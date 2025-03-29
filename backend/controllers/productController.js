@@ -78,4 +78,28 @@ const removeProduct = async (req, res) => {
 
 }
 
-export { listProducts, addProduct, removeProduct }
+const updateProductPrice = async (req, res) => {
+    try {
+        const { id, price } = req.body;
+
+        if (!id || !price) {
+            return res.status(400).json({ success: false, message: "Product ID and new price are required" });
+        }
+
+        const product = await Product.findById(id);
+
+        if (!product) {
+            return res.status(404).json({ success: false, message: "Product not found" });
+        }
+
+        product.price = price; // Update the price
+        await product.save(); // Save the updated product
+
+        res.json({ success: true, message: "Product price updated successfully", data: product });
+    } catch (error) {
+        console.log(error);
+        res.json({ success: false, message: "Error updating product price" });
+    }
+};
+
+export { listProducts, addProduct, removeProduct, updateProductPrice }

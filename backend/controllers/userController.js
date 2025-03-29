@@ -1,4 +1,5 @@
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 import validator from 'validator';
 import userModel from '../models/userModel.js';
 import generateToken from '../utils/createToken.js';
@@ -20,11 +21,20 @@ const loginUser = async (req, res) => {
       return res.status(401).json({ success: false, message: 'Invalid credentials' });
     }
 
-    // Generate token and send response
-    generateToken(res, user._id);
-    res.status(200).json({ success: true, message: 'Login successful' });
+    // Generate a token with user data
+    const token = jwt.sign(
+      { id: user._id, isAdmin: user.isAdmin },
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' }
+    );
+
+    res.status(200).json({
+      success: true,
+      message: 'Login successful',
+      token,
+      isAdmin: user.isAdmin,
+    });
   } catch (error) {
-    console.error(error);
     res.status(500).json({ success: false, message: 'Server error' });
   }
 };
@@ -64,9 +74,12 @@ const registerUser = async (req, res) => {
     generateToken(res, user._id);
     res.status(201).json({ success: true, message: 'User registered successfully' });
   } catch (error) {
-    console.error(error);
     res.status(500).json({ success: false, message: 'Server error' });
   }
 };
 
-export { loginUser, registerUser };
+const logoutUser = async (req, res) => {
+  return res.status(200).json({ success: true, message: "Logged out successfully" })
+}
+
+export { loginUser, registerUser , logoutUser};

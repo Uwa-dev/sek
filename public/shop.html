@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="./styles.css">
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-  <title>Sekanniii - Products</title>
+  <link rel="icon" href="./assets/logo-removebg-preview.png" type="image/png">
+  <title>Shop - Sekanniii</title>
 </head>
 <body>
   <nav data-animation="fade-in">
@@ -17,10 +18,7 @@
       <li><a href="./wishlist.html">Wishlist</a></li>
       <li><a href="./contact.html">Contact us</a></li>
     </ul>
-    <!-- <div class="search-container">
-      <i class='bx bx-search-alt'></i>
-      <input type="text" class="search" placeholder="Search">
-    </div> -->
+
     <ul class="icons">
       <a href="./cart.html">
         <i class="bx bxs-cart">
@@ -47,22 +45,15 @@
     </div>
   </nav>
 
-  <section id="shop-hero" data-animation="fade-in">
-    <div class="shop-hero">
-      <div class="shop-hero-content">
-        <h1>Discover the Perfect Bag for Every Style</h1>
-        <p>Your journey to elegance begins here. Explore our premium collection of bags crafted to complement every look.</p>
-        <a href="#shop" class="shop-btn">Shop Now</a>
-      </div>
-      <div class="shop-hero-img-container">
-        <img src="./assets/renamedbag.jpg" alt="Stylish Bag" class="shop-hero-img">
-      </div>
+  <section id="shop-container" data-animation="fade-in">
+    <div class="shop-container">
+      <h1 class="shop-heading">Shop</h1>
     </div>
   </section>
   
   <div id="toast" class="toast"></div>
 
-  <section id="items">
+  <section id="items" data-animation="fade-in">
     <h1 class="products-heading">All Products</h1>
     <div class="all-items-container">
       
@@ -105,16 +96,12 @@
     <p>&copy; 2025 Sekanni. All rights reserved.</p>
   </footer>  
   
-  
-  <script src="./js/script.js"></script>
+
   <script src="./js/shared.js"></script>
   
   <script>
     // shop.js
 
-    
-
-    // Render products on the page
     function renderProducts() {
       const container = document.querySelector(".all-items-container");
       container.innerHTML = "";

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../assets/logo-removebg-preview.png" type="image/png">
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="./adminStyles.css">
+    <title>Order Details - Sekanniii</title>
+    <style>
+        .toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            padding: 16px;
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transition: opacity 0.5s, bottom 0.5s;
+        }
+
+        .toast.show {
+            visibility: visible;
+            opacity: 1;
+            bottom: 50px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav data-animation="fade-in">
+        <img src="../assets/logo-removebg-preview.png" alt="Logo" class="logo">
+        <ul class="navigation">
+          <li><a href="./index.html">Home</a></li>
+          <li><a href="./listProduct.html">Products</a></li>
+          <li><a href="#">View Orders</a></li>
+          <li><a href="./addProduct.html">Add</a></li>
+        </ul>
+        <ul class="icons">
+          <i class='bx bx-search-alt'></i>
+          <a href=""><i class='bx bxs-user'></i></a>
+          <a href="./login.html" class="login-btn">Login</a>
+        </ul>
+        <div class="toggle-button" onclick="showSideBar()">
+          <span></span>
+          <span></span>
+          <span></span>
+          <ul class="phone-nav">
+            <li><a href="./index.html">Home</a></li>
+            <li><a href="./listProduct.html">Products</a></li>
+            <li><a href="#">View Orders</a></li>
+            <li><a href="./addProduct.html">Add</a></li>
+          </ul>
+        </div>
+    </nav>
+
+    <div id="toast" class="toast">Order status changed successfully!</div>
+
+
+    <section class="order-details">
+        <h1>Order Details</h1>
+        <div id="order-details-container" class="order-summary">
+            <!-- Order details will be dynamically populated here -->
+        </div>
+    </section>
+
+    <script src="../js/admin.js"></script>
+
+    <script>
+       document.addEventListener("DOMContentLoaded", () => {
+            const container = document.getElementById("order-details-container");
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const orderId = urlParams.get('orderId');
+
+            async function fetchOrderDetails(orderId) {
+                try {
+                    const response = await fetch(`/api/payment/${orderId}`);
+                    if (!response.ok) {
+                        throw new Error(`Failed to fetch order details: ${response.status}`);
+                    }
+
+                    const data = await response.json();
+
+                    if (data.status && data.order) {
+                        const order = data.order;
+                        container.innerHTML = `
+                            <p><strong>Order ID:</strong> ${order.orderId}</p>
+                            <p><strong>Customer Name:</strong> ${order.name}</p>
+                            <p><strong>Phone:</strong> ${order.phone}</p>
+                            <p><strong>Address:</strong> ${order.address}</p>
+                            <p><strong>Amount:</strong> ₦${order.amount.toLocaleString()}</p>
+                            <p id="order-status"><strong>Status:</strong> ${order.status}</p>
+                            <p><strong>Payment:</strong> ${order.payment ? "Paid" : "Pending"}</p>
+                            <h3>Products Bought:</h3>
+                            <ul id="products-list"></ul>
+                            <button class="delivery-button">Sent for delivery</button>
+                        `;
+
+                        const productsList = document.getElementById("products-list");
+                        order.items.forEach(item => {
+                            const listItem = document.createElement("li");
+                            listItem.innerHTML = `
+                                <strong>${item.name}</strong> (₦${item.price.toLocaleString()} x ${item.quantity})
+                                <br><img src="/images/${item.image}" alt="${item.name}" style="max-width: 100px;"/>
+                            `;
+                            productsList.appendChild(listItem);
+                        });
+
+                        // ✅ Attach event listener here
+                        document.querySelector(".delivery-button").addEventListener("click", () => {
+                            updateOrderStatus(order.orderId);
+                        });
+                    } else {
+                        console.error("Invalid data returned from API:", data);
+                        alert(data.message || "Failed to retrieve order details.");
+                    }
+                } catch (error) {
+                    console.error("Error fetching order details:", error.message);
+                }
+            }
+
+            function showToast(message) {
+                const toast = document.getElementById("toast");
+                toast.textContent = message;
+                toast.classList.add("show");
+
+                setTimeout(() => {
+                    toast.classList.remove("show");
+                }, 3000); // Toast disappears after 3 seconds
+            }
+
+            async function updateOrderStatus(orderId) {
+                try {
+                    const response = await fetch(`/api/payment/${orderId}/update-status`, {
+                        method: "PATCH",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ status: "Completed" }),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error("Failed to update order status.");
+                    }
+
+                    const result = await response.json();
+
+                    // Update UI after successful status change
+                    document.getElementById("order-status").innerHTML = `<strong>Status:</strong> Completed`;
+                    showToast("Order status changed successfully!");
+                } catch (error) {
+                    console.error("Error updating order status:", error);
+                    alert("Failed to update order status.");
+                }
+            }
+
+
+            fetchOrderDetails(orderId);
+        });
+
+
+
+    </script>
+</body>
+</html>

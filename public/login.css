@@ -9,7 +9,8 @@ body {
 }
 
 .login-container, 
-.register-container{
+.register-container,
+.pay-container{
   background-color: var(--hero-color);
   padding: 2rem;
   border-radius: 12px;
@@ -20,7 +21,8 @@ body {
 }
 
 .login-container h1,
-.register-container h1 {
+.register-container h1,
+.pay-container h1 {
   font-family: var(--h1-font);
   font-size: var(--h1-font-size);
   text-align: center;
@@ -29,7 +31,8 @@ body {
 }
 
 .login-container form,
-.register-container form{
+.register-container form,
+.pay-container form{
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -62,7 +65,8 @@ body {
 }
 
 .login-btn,
-.register-btn{
+.register-btn,
+.pay-btn{
   padding: 0.75rem;
   background-color: var(--text-color);
   color: #ddd;
@@ -73,8 +77,9 @@ body {
   transition: background-color 0.3s ease-in-out;
 }
 
-.login-btn:hover
-.register-btn:hover {
+.login-btn:hover,
+.register-btn:hover,
+.pay-btn:hover{
   background-color: var(--hover-color);
 }
 
